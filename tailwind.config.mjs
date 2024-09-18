@@ -16,6 +16,7 @@ export default {
     },
     extend: {
       colors: {
+        body: 'rgb(var(--color-body) / <alpha-value>)',
         primary: 'var(--color-primary)',
         deco: {
           light: 'var(--color-deco-light)',

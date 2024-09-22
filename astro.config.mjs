@@ -10,4 +10,10 @@ export default defineConfig({
   site: 'https://jill83123.github.io',
   base: '/',
   integrations: [mdx(), sitemap(), vue(), tailwind()],
+  markdown: {
+    shikiConfig: {
+      theme: 'github-light',
+      wrap: true,
+    },
+  },
 });

@@ -1,0 +1,130 @@
+.article {
+  /* prettier-ignore */
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  h1 {
+    @apply text-[30px] sm:text-[32px];
+  }
+  h2 {
+    @apply text-[24px] sm:text-[26px];
+  }
+  h3 {
+    @apply text-[22px] sm:text-[24px];
+  }
+  h4 {
+    @apply text-[20px] sm:text-[22px];
+  }
+  h5 {
+    @apply text-[18px] sm:text-[20px];
+  }
+  h6 {
+    @apply text-[16px] sm:text-[18px];
+  }
+
+  .content {
+    line-height: 1.8;
+    color: var(--color-text-light);
+    @apply text-[16px] sm:text-[18px];
+
+    /* prettier-ignore */
+    h1, h2, h3, h4, h5, h6, p, img, code, blockquote, table {
+      margin-bottom: 18px;
+    }
+
+    a {
+      @apply highlight after:bg-sky-300 hover:after:top-[-5%];
+    }
+
+    sup a {
+      margin-left: 4px;
+    }
+
+    hr {
+      margin: 18px 0;
+    }
+
+    /* ------------------------------ */
+
+    ul {
+      list-style: disc;
+      margin-left: 22px;
+
+      li::marker {
+        font-size: 20px;
+      }
+    }
+
+    ol {
+      list-style: numeric;
+      margin-left: 22px;
+    }
+
+    /* ------------------------------ */
+
+    /* prettier-ignore */
+    .astro-code, .footnotes, blockquote {
+      @apply py-2 px-4 sm:py-3 sm:px-6
+    }
+
+    .astro-code {
+      border-radius: 4px;
+      border: 1px solid var(--color-deco-light);
+    }
+
+    .footnotes {
+      font-size: 14px;
+      margin-top: 54px;
+      border: 2px dotted var(--color-deco-light);
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    blockquote {
+      border: 1px solid var(--color-deco-light);
+      border-left: 8px solid var(--color-primary);
+
+      p:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    /* ------------------------------ */
+
+    table {
+      width: 100%;
+      overflow-x: auto;
+
+      thead {
+        border-bottom: 2px solid var(--color-deco-light);
+      }
+
+      tr {
+        border-bottom: 1px solid var(--color-deco-light);
+      }
+
+      tbody tr:hover {
+        @apply bg-neutral-50 bg-opacity-70;
+      }
+
+      /* prettier-ignore */
+      th, td {
+        text-align: start;
+        padding: 10px;
+      }
+    }
+
+    /* ------------------------------ */
+
+    mark {
+      background: transparent;
+      @apply highlight after:bg-amber-200;
+    }
+  }
+}

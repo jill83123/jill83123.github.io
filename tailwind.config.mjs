@@ -22,6 +22,10 @@ export default {
           light: 'var(--color-deco-light)',
           dark: 'var(--color-deco-dark)',
         },
+        text: {
+          light: 'var(--color-text-light)',
+          default: 'var(--color-text)',
+        },
       },
     },
   },

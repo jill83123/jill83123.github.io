@@ -5,8 +5,7 @@ import moment from 'moment';
 
 type Props = CollectionEntry<'post'>['data'];
 
-const { title, description, createdDate, updatedDate, hero, category, subcategory, tags } =
-  Astro.props;
+const { title, description, createdDate, updatedDate, hero, category, tags } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -19,18 +18,8 @@ const { title, description, createdDate, updatedDate, hero, category, subcategor
           <li title="分類" class="flex items-center gap-1">
             <span class="icon-[material-symbols--folder-outline] mr-[2px]"></span>
             <a href="/" class="hover:text-primary">
-              {category !== 'none' ? category : '未分類'}
+              {category}
             </a>
-            {
-              subcategory !== 'none' && (
-                <div>
-                  <span class="-mx-1">∣</span>
-                  <a href="/" class="hover:text-primary">
-                    {subcategory}
-                  </a>
-                </div>
-              )
-            }
           </li>
 
           <li class="flex items-center gap-1">

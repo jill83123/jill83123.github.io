@@ -8,8 +8,7 @@ const post = defineCollection({
     description: z.string(),
     hero: z.string().optional(),
 
-    category: z.string().default('none'),
-    subcategory: z.string().default('none'),
+    category: z.string().default('未分類'),
     series: z.string().default('none'),
     tags: z.array(z.string()).default([]),
 

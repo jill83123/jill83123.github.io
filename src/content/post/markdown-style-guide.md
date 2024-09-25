@@ -3,7 +3,6 @@ title: 'Markdown Style Guide'
 description: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
 hero: '/blog-placeholder-1.jpg'
 category: '大分類'
-subcategory: '小分類'
 series: 'OOOOO 系列'
 tags: ['標籤 1', '標籤 2', '標籤 3']
 createdDate: '2024-06-19'

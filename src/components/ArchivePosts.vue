@@ -71,7 +71,7 @@ const reversePostGroups = () => {
             href="/"
             class="text-nowrap text-[12px] text-deco-dark hover:text-primary"
           >
-            {{ post.data.category === 'none' ? '未分類' : post.data.category }}
+            {{ post.data.category }}
           </a>
         </li>
       </ol>

@@ -36,60 +36,62 @@ import { SITE_TITLE } from '@/consts';
 </nav>
 
 <script>
-  // 手機版選單
-  let isOpened = false;
+  document.addEventListener('astro:page-load', () => {
+    // 手機版選單
+    let isOpened = false;
 
-  const menu = document.querySelector('#navMenu') as HTMLDivElement;
-  const menuToggler = document.querySelector('#navMenuToggler') as HTMLButtonElement;
+    const menu = document.querySelector('#navMenu') as HTMLDivElement;
+    const menuToggler = document.querySelector('#navMenuToggler') as HTMLButtonElement;
 
-  const toggleNavMenu = () => {
-    if (!isOpened) {
-      navbar.classList.add('opend');
-      menu.style.maxHeight = '0';
+    const toggleNavMenu = () => {
+      if (!isOpened) {
+        navbar.classList.add('opend');
+        menu.style.maxHeight = '0';
+        menu.style.maxHeight = `${menu.scrollHeight}px`;
+        isOpened = true;
+        return;
+      }
+
       menu.style.maxHeight = `${menu.scrollHeight}px`;
-      isOpened = true;
-      return;
-    }
+      menu.style.maxHeight = '0';
 
-    menu.style.maxHeight = `${menu.scrollHeight}px`;
-    menu.style.maxHeight = '0';
+      setTimeout(() => {
+        navbar.classList.remove('opend');
+        menu.style.maxHeight = '';
+      }, 300);
 
-    setTimeout(() => {
-      navbar.classList.remove('opend');
-      menu.style.maxHeight = '';
-    }, 300);
+      isOpened = false;
+    };
 
-    isOpened = false;
-  };
+    menuToggler.addEventListener('click', toggleNavMenu);
 
-  menuToggler.addEventListener('click', toggleNavMenu);
+    document.addEventListener('click', (event: Event) => {
+      const target = event.target as Node;
 
-  document.addEventListener('click', (event: Event) => {
-    const target = event.target as Node;
+      if (isOpened && !navbar.contains(target)) {
+        toggleNavMenu();
+      }
+    });
 
-    if (isOpened && !navbar.contains(target)) {
-      toggleNavMenu();
-    }
+    // 滾動顯示
+    let lastScrollTop = 0;
+
+    const navbar = document.querySelector('#navbar') as HTMLDivElement;
+
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+
+      if (scrollTop > lastScrollTop) {
+        navbar.classList.add('navbar-hidden');
+      } else {
+        navbar.classList.remove('navbar-hidden');
+      }
+
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    };
+
+    document.addEventListener('scroll', handleScroll);
   });
-
-  // 滾動顯示
-  let lastScrollTop = 0;
-
-  const navbar = document.querySelector('#navbar') as HTMLDivElement;
-
-  const handleScroll = () => {
-    const scrollTop = document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop) {
-      navbar.classList.add('navbar-hidden');
-    } else {
-      navbar.classList.remove('navbar-hidden');
-    }
-
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  };
-
-  document.addEventListener('scroll', handleScroll);
 </script>
 
 <style lang="scss">

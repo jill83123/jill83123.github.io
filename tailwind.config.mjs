@@ -27,6 +27,9 @@ export default {
           default: 'var(--color-text)',
         },
       },
+      zIndex: {
+        navbar: '9999',
+      },
     },
   },
   plugins: [addDynamicIconSelectors()],

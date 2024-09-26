@@ -4,9 +4,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import CategoryPosts from '@/components/CategoryPosts.vue';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('post')).sort(
-    (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
-  );
+  const posts = (await getCollection('post'))
+    .sort((a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf())
+    .filter((post) => post.data.isShow);
 
   return posts.map((post) => {
     const currentCategory = post.data.category;

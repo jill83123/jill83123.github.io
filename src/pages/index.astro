@@ -4,9 +4,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PostList from '@/components/PostList.vue';
 
-const posts = (await getCollection('post')).sort(
-  (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
-);
+const posts = (await getCollection('post'))
+  .sort((a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf())
+  .filter((post) => post.data.isShow);
 ---
 
 <BaseLayout title={'首頁'} description={SITE_DESCRIPTION}>

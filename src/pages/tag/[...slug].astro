@@ -4,9 +4,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PostList from '@/components/PostList.vue';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('post')).sort(
-    (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
-  );
+  const posts = (await getCollection('post'))
+    .sort((a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf())
+    .filter((post) => post.data.isShow);
 
   const tags = Array.from(
     posts.reduce((acc, post) => {

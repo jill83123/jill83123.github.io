@@ -7,9 +7,9 @@ import ArchivePosts from '@/components/ArchivePosts.vue';
 
 type Post = CollectionEntry<'post'>;
 
-const allPosts = (await getCollection('post')).sort(
-  (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
-);
+const allPosts = (await getCollection('post'))
+  .sort((a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf())
+  .filter((post) => post.data.isShow);
 
 let groupedPostsByYear: [string, Post[]][] = [];
 

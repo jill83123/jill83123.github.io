@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostList from '@/components/PostList.vue';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('post')).sort(
+    (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
+  );
+
+  const tags = Array.from(
+    posts.reduce((acc, post) => {
+      post.data.tags.forEach((tag) => acc.add(tag));
+      return acc;
+    }, new Set<string>())
+  );
+
+  return tags.map((currentTag: string) => {
+    const currentPosts = posts.filter((post) => post.data.tags.some((tag) => tag === currentTag));
+
+    return {
+      props: { currentTag, currentPosts },
+      params: { slug: currentTag },
+    };
+  });
+}
+
+const { currentTag, currentPosts } = Astro.props;
+---
+
+<BaseLayout title={`文章標籤：${currentTag}`}>
+  <section class="container-sm section">
+    <div class="relative">
+      <a
+        href="/category"
+        class="absolute bottom-0 left-0 hidden items-center gap-1 text-[14px] hover:text-primary sm:flex"
+      >
+        <span class="icon-[ic--round-arrow-back]"></span>
+        返回分類頁
+      </a>
+
+      <h1 class="mb-12 text-center font-semibold tracking-wide text-text-light">
+        標籤：{currentTag}
+      </h1>
+    </div>
+
+    <PostList posts={currentPosts} />
+  </section>
+</BaseLayout>

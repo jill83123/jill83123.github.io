@@ -42,10 +42,10 @@ const { title, description, createdDate, updatedDate, hero, category, tags } = A
 
         {
           tags.length !== 0 && (
-            <ul class="text-text-light flex flex-wrap items-center gap-2 text-[12px]">
+            <ul class="flex flex-wrap items-center gap-2 text-[12px] text-text-light">
               {tags.map((tag: string) => (
                 <li>
-                  <a href="/" class="tag">
+                  <a href={`/tag/${tag}`} class="tag">
                     # {tag}
                   </a>
                 </li>

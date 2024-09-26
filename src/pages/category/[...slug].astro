@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CategoryPosts from '@/components/CategoryPosts.vue';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('post')).sort(
+    (a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf()
+  );
+
+  return posts.map((post) => {
+    const currentCategory = post.data.category;
+    const currentPosts = posts.filter((post) => post.data.category === currentCategory);
+
+    return {
+      props: { currentCategory, currentPosts },
+      params: { slug: currentCategory },
+    };
+  });
+}
+
+const { currentCategory, currentPosts } = Astro.props;
+---
+
+<BaseLayout title={`文章分類：${currentCategory}`}>
+  <section class="section container-sm">
+    <div class="relative">
+      <a
+        href="/category"
+        class="absolute bottom-0 left-0 hidden items-center gap-1 text-[14px] hover:text-primary sm:flex"
+      >
+        <span class="icon-[ic--round-arrow-back]"></span>
+        返回分類頁
+      </a>
+
+      <h1 class="mb-12 text-center font-semibold tracking-wide text-text-light">
+        分類：{currentCategory}
+      </h1>
+    </div>
+
+    <CategoryPosts client:load currentPosts={currentPosts} />
+  </section>
+</BaseLayout>

@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('post');
+
+const allCategories = Object.entries(
+  allPosts.reduce<{ [category: string]: number }>((acc, post) => {
+    const { category } = post.data;
+    if (!acc[category]) acc[category] = 0;
+    acc[category] += 1;
+    return acc;
+  }, {})
+).sort((a, b) => b[1] - a[1]);
+
+const allTags = Object.entries(
+  allPosts.reduce<{ [tag: string]: number }>((acc, post) => {
+    const { tags } = post.data;
+    tags.forEach((tag) => {
+      if (!acc[tag]) acc[tag] = 0;
+      acc[tag] += 1;
+    });
+    return acc;
+  }, {})
+).sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title={'分類'}>
+  <div class="section container-sm">
+    <h1 class="mb-12 text-center font-semibold tracking-wider text-text-light">分類與標籤</h1>
+
+    <section class="mb-16">
+      <h2 class="mb-4">
+        <span class="text-[18px] font-bold tracking-wider text-primary">分類</span>
+        <span class="font-mono text-[14px] text-deco-dark">{allCategories.length}</span>
+      </h2>
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-3 pl-[2px]">
+        {
+          allCategories.map(([category, quantity]) => (
+            <li>
+              <a
+                href={`/category/${category}`}
+                class="highlight flex items-center gap-[2px] leading-5 hover:after:bg-primary"
+              >
+                {category}
+                <span class="font-mono text-[14px] text-deco-dark">({quantity})</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="mb-4">
+        <span class="text-[18px] font-bold tracking-wider text-primary">標籤</span>
+        <span class="font-mono text-[14px] text-deco-dark">{allTags.length}</span>
+      </h2>
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-3 pl-[2px]">
+        {
+          allTags.map(([tag, quantity]) => (
+            <li>
+              <a
+                href={`/tag/${tag}`}
+                class="highlight flex items-center gap-[2px] leading-5 hover:after:bg-primary"
+              >
+                {tag}
+                <span class="font-mono text-[14px] text-deco-dark">({quantity})</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

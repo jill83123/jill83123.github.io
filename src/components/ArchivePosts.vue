@@ -68,7 +68,7 @@ const reversePostGroups = () => {
             <h3>{{ post.data.title }}</h3>
           </a>
           <a
-            href="/"
+            :href="`/category/${post.data.category}`"
             class="text-nowrap text-[12px] text-deco-dark hover:text-primary"
           >
             {{ post.data.category }}

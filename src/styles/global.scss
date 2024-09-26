@@ -94,7 +94,11 @@
   .tag {
     display: block;
     padding: 4px 12px;
-    @apply border-text-light text-text-light rounded-full border hover:border-primary hover:text-primary;
+    @apply rounded-full border border-text-light text-text-light hover:border-primary hover:text-primary;
+
+    &.active {
+      @apply border-primary text-primary;
+    }
   }
 
   .btn {

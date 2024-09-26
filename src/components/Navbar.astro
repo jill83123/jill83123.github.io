@@ -1,0 +1,156 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import { SITE_TITLE } from '@/consts';
+---
+
+<nav class="mt-[71px]">
+  <div
+    id="navbar"
+    class="fixed left-0 right-0 top-0 z-navbar border-b border-deco-light bg-body/90 backdrop-blur-lg"
+  >
+    <div class="container-sm flex flex-wrap items-center justify-between py-2 tracking-wide">
+      <div class="text-[20px] text-primary">
+        <a href="/" class="flex items-center gap-1 py-3 pr-3">
+          <span class="font-black">{SITE_TITLE}</span>
+          <span class="icon-[pajamas--slight-smile]"></span>
+        </a>
+      </div>
+
+      <button type="button" id="navMenuToggler" class="text-[20px] leading-none">
+        <span class="show-icon icon-[hugeicons--menu-01] block"></span>
+        <span class="close-icon icon-[mingcute--close-line] block"></span>
+      </button>
+
+      <div id="navMenu">
+        <ul class="flex items-center gap-3">
+          <li>
+            <HeaderLink href="/archive">文章</HeaderLink>
+          </li>
+          <li>
+            <HeaderLink href="/category">分類</HeaderLink>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // 手機版選單
+    let isOpened = false;
+
+    const menu = document.querySelector('#navMenu') as HTMLDivElement;
+    const menuToggler = document.querySelector('#navMenuToggler') as HTMLButtonElement;
+
+    const toggleNavMenu = () => {
+      if (!isOpened) {
+        navbar.classList.add('opend');
+        menu.style.maxHeight = '0';
+        menu.style.maxHeight = `${menu.scrollHeight}px`;
+        isOpened = true;
+        return;
+      }
+
+      menu.style.maxHeight = `${menu.scrollHeight}px`;
+      menu.style.maxHeight = '0';
+
+      setTimeout(() => {
+        navbar.classList.remove('opend');
+        menu.style.maxHeight = '';
+      }, 300);
+
+      isOpened = false;
+    };
+
+    menuToggler.addEventListener('click', toggleNavMenu);
+
+    document.addEventListener('click', (event: Event) => {
+      const target = event.target as Node;
+
+      if (isOpened && !navbar.contains(target)) {
+        toggleNavMenu();
+      }
+    });
+
+    // 滾動顯示
+    let lastScrollTop = 0;
+
+    const navbar = document.querySelector('#navbar') as HTMLDivElement;
+
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+
+      if (scrollTop > lastScrollTop) {
+        navbar.classList.add('navbar-hidden');
+      } else {
+        navbar.classList.remove('navbar-hidden');
+      }
+
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    };
+
+    document.addEventListener('scroll', handleScroll);
+  });
+</script>
+
+<style lang="scss">
+  #navMenuToggler {
+    display: none;
+  }
+
+  @media ((max-width: 640px)) {
+    #navMenuToggler {
+      display: block;
+    }
+
+    .close-icon {
+      display: none;
+    }
+
+    #navMenu {
+      width: 100%;
+      opacity: 0;
+      overflow: hidden;
+      transition:
+        max-height 0.3s ease,
+        opacity 0.3s ease;
+
+      ul {
+        display: none;
+      }
+    }
+
+    .opend {
+      .show-icon {
+        display: none;
+      }
+      .close-icon {
+        display: block;
+      }
+
+      #navMenu {
+        opacity: 1;
+
+        ul {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        a {
+          padding: 12px 0;
+        }
+      }
+    }
+  }
+
+  #navbar {
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+
+    &.navbar-hidden {
+      transform: translateY(-100%);
+    }
+  }
+</style>

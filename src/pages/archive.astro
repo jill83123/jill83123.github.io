@@ -1,0 +1,31 @@
+---
+import { SITE_DESCRIPTION } from '@/consts';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArchivePosts from '@/components/ArchivePosts.vue';
+
+type Post = CollectionEntry<'post'>;
+
+const allPosts = (await getCollection('post'))
+  .sort((a, b) => b.data.createdDate.valueOf() - a.data.createdDate.valueOf())
+  .filter((post) => post.data.isShow);
+
+let groupedPostsByYear: [string, Post[]][] = [];
+
+groupedPostsByYear = Object.entries(
+  allPosts.reduce<{ [year: string]: Post[] }>((acc, post) => {
+    const year = post.data.createdDate.getFullYear().toString();
+
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  }, {})
+);
+---
+
+<BaseLayout title="所有文章" description={SITE_DESCRIPTION}>
+  <section class="section container-sm">
+    <ArchivePosts client:load groupedPostsByYear={groupedPostsByYear} />
+  </section>
+</BaseLayout>
